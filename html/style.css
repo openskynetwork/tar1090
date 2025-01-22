@@ -6,6 +6,7 @@
     --FS1: calc( 10px * var(--SCALE));
     --FS2: calc( 13px * var(--SCALE));
     --FS3: calc( 17px * var(--SCALE));
+    --FS4: calc( 23px * var(--SCALE));
     --TXTCOLOR1: #003f4b;
     --TXTCOLOR2: #050505;
     --TXTCOLOR3: #101010;
@@ -22,6 +23,12 @@ html, body {
     overflow: hidden;
     height: 100%;
     color: var(--TXTCOLOR2);
+}
+
+.navLinks {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: .5em;
 }
 
 select {
@@ -605,6 +612,12 @@ table.infoSectionTable tr td {
     font-weight: bold;
     color: var(--TXTCOLOR1);
     font-size: var(--FS3);
+}
+
+.extraLargeText {
+    font-weight: bold;
+    color: var(--TXTCOLOR1);
+    font-size: var(--FS4);
 }
 
 .infoBlockTitleText {

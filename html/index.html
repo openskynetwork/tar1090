@@ -16,9 +16,7 @@
     <link rel="stylesheet" href="libs/ol-8.2.0.css" type="text/css" />
     <link rel="stylesheet" href="libs/ol-layerswitcher-4.1.1.css" type="text/css"/>
     <link rel="stylesheet" href="style.css" type="text/css" />
-
-    <link rel="icon" type="image/png" href="images/tar1090-favicon.png">
-
+    <link rel="icon" type="image/png" href="images/opensky-favicon.png">
     <title>tar1090</title>
   </head>
 
@@ -851,7 +849,34 @@
                   <button id="shrink_sidebar_button" class="shrink_sidebar hidden sidebar_button" title="Show Map"></button>
                 </td>
               </tr>
-
+              <tr>
+                <td>
+                  <img src="images/opensky-logo.png" style="width: 100%; height: auto;">
+                </td>
+              </tr>
+              <tr style="display: table-row;">
+                <td style="text-align: center">
+                  <div>
+                    <span class="extraLargeText">OpenSky Flight Map - Beta<br></span>
+                    <div class="rSpacer"></div>
+                    <div class="rSpacer"></div>
+                    <span class="largeText">Main Site:<br><a class="largeText" target="_blank" href="https://opensky-network.org/">opensky-network.org</a></span>
+                    <div class="rSpacer"></div>
+                    <div class="rSpacer"></div>
+                    <div class="rSpacer"></div>
+                    <div class="rSpacer"></div>
+                  </div>
+                  <div>
+                    <span class="largeText navLinks">
+                      <a class="largeText" target="_blank" href="https://opensky-network.org/contribute/become-a-feeder">Feed Data</a>
+                      <a class="largeText" target="_blank" href="https://discord.gg/tdfwFsrG">Discord</a>
+                      <a class="largeText" target="_blank" href="https://opensky-network.org/about/faq">FAQ</a>
+                    </span>
+                  </div>
+                  <div class="rSpacer">
+                  </div>
+                </td>
+              </tr>
               <tr id='aggregator_header' class="infoblock_row hidden">
                 <td style="text-align: center">
                   <div>
@@ -897,11 +922,9 @@
                   <table style="width: 100%">
                     <tr class="infoblock_heading">
                       <td style="width: 50%"><span class="infoBlockTitleText">Total Aircraft:</span> <span id="dump1090_total_ac">n/a</span></td>
-                      <td id="dump1090_message_rate_td"><span class="infoBlockTitleText">Messages:</span> <span id="dump1090_message_rate">n/a</span>/sec</td>
                     </tr>
                     <tr class="infoblock_body">
                       <td style="width: 50%"><span id="with_positions" class="infoBlockTitleText">With Position:</span> <span id="dump1090_total_ac_positions">n/a</span></td>
-                      <td id="dump1090_total_history_td"><span class="infoBlockTitleText">History:</span> <span id="dump1090_total_history">n/a</span> positions</td>
                     </tr>
                   </table>
                   <table style="width: 100%" id="infoblock_altimeter" class="hidden">
