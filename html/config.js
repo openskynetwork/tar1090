@@ -118,9 +118,9 @@ MessageRateInTitle = true;
 // different marker size depending on zoom lvl
 // markerZoomDivide = 8.5;
 // marker size when the zoom level is less than markerZoomDivide
-// markerSmall = 1;
+markerSmall = 0.8
 // marker size when the zoom level is more than markerZoomDivide
-// markerBig = 1.18;
+markerBig = 1.0
 
 //largeMode = 1;
 
