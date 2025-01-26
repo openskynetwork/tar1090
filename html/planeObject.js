@@ -2889,8 +2889,8 @@ function normalized_callsign(flight) {
 }
 
 function routeCheck(currentName, lat, lon) {
-    // we have all the pieces that allow us to lookup a route
-    let route_check = { 'callsign': currentName, 'lat': lat, 'lng': lon };
+    // For our route service we ignore lat and lon:
+    let route_check = { 'callsign': currentName };
     g.route_check_array.push(route_check);
     g.route_cache[currentName] = ''; // this way it only gets added to the array once
 }
