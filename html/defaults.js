@@ -16,6 +16,8 @@ let disabled = false;
 let PlaneCountInTitle = false;
 let MessageRateInTitle = false;
 
+let OSNHost = ""
+
 // -- Output Settings -------------------------------------
 // The DisplayUnits setting controls whether nautical (ft, nmi, kt),
 // metric (m, km, km/h) or imperial (ft, mi, mph) units are used in the

@@ -75,7 +75,7 @@ function createBaseLayers() {
 
     world.push(new ol.layer.Tile({
         source: new ol.source.OSM({
-            "url" : "https://beta.opensky-network.org/mapproxy/tiles/1.0.0/osm/osm_grid/{z}/{x}/{y}.png",
+            "url" : `https://${OSNHost}/mapproxy/tiles/1.0.0/osm/osm_grid/{z}/{x}/{y}.png`,
             maxZoom: 17,
             attributionsCollapsible: false,
             transition: tileTransition,
