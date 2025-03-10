@@ -8,7 +8,7 @@
 // Show number of aircraft and/or messages per second in the page title
 PlaneCountInTitle = true;
 MessageRateInTitle = true;
-OSNHost = "beta.map.opensky-network.org"
+OSNHost = "map.opensky-network.org"
 
 // -- Output Settings -------------------------------------
 // The DisplayUnits setting controls whether nautical (ft, nmi, kt),
