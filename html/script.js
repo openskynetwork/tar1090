@@ -136,8 +136,6 @@ let nextQuerySelected = 0;
 let enableDynamicCachebusting = false;
 let lastRefreshInt = 1000;
 let reapTimeout = globeIndex ? 240 : 480;
-let isRecatchaValidationFinished = false;
-let recaptchaToken = null;
 
 
 let baroCorrectQNH = 1013.25;
@@ -8932,87 +8930,6 @@ function globeRateUpdate() {
         return jQuery.Deferred().resolve();
     }
 }
-
-function loadRecaptchaScript(siteKey) {
-    return new Promise((resolve, reject) => {
-        const recaptchaScript = document.createElement("script");
-        recaptchaScript.src = `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`;
-        recaptchaScript.async = true;
-
-        recaptchaScript.onload = () => {
-            console.log("reCAPTCHA script loaded.");
-            resolve();
-        };
-
-        recaptchaScript.onerror = () => {
-            console.error("Failed to load the reCAPTCHA script.");
-            reject(new Error("Failed to load reCAPTCHA script"));
-        };
-
-        document.head.appendChild(recaptchaScript);
-    });
-}
-
-function submitTokenToServer(token) {
-    fetch("/verify-recaptcha", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({token: token})
-    }).then(response => {
-        isRecatchaValidationFinished = true;
-        if (!response.ok) {
-            throw new Error("Failed to verify reCAPTCHA");
-        }
-        return response.json();
-    }).then(data => {
-        console.log("reCAPTCHA verification result:", data);
-    }).catch(error => console.error("Error verifying reCAPTCHA:", error));
-}
-
-function validateRecaptcha(siteKey) {
-    // Wait until the reCAPTCHA library is ready
-    grecaptcha.enterprise.ready(() => {
-        grecaptcha.enterprise.execute(siteKey, {action: "tar1090"})
-            .then(token => {
-                // Submit the token to the server
-                submitTokenToServer(token);
-            })
-            .catch(error => console.error("Error executing reCAPTCHA:", error));
-    });
-}
-
-function initializeRecaptcha() {
-    // Fetch the reCAPTCHA key from your server
-    fetch("/get-recaptcha-key", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error("Failed to fetch reCAPTCHA key");
-        }
-        return response.json();
-    }).then(data => {
-        // Ensure the key is present in the response
-        if (!data || !data.key) {
-            throw new Error("Missing site key in response");
-        }
-        const siteKey = data.key;
-
-        // Dynamically load the reCAPTCHA script with the site key
-        return loadRecaptchaScript(siteKey).then(() => siteKey);
-    }).then(siteKey => {
-        // Start reCAPTCHA validation
-        validateRecaptcha(siteKey);
-    }).catch(error => console.error("Error initializing reCAPTCHA:", error));
-}
-
-// Start initialization on page load
-document.addEventListener("DOMContentLoaded", initializeRecaptcha);
-
 globeRateUpdate();
 
 
