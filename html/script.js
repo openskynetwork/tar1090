@@ -536,12 +536,6 @@ let fetchCalls = 0;
 let fetchDoneCount = 0;
 function fetchData(options) {
     options = options || {};
-
-    if (!isRecatchaValidationFinished) {
-        console.warn("reCAPTCHA not validated. Skipping fetchData.");
-        return;
-    }
-
     if (!timersActive) {
         //console.log(localTime(new Date()) + " fetchData inhibited by !timersActive");
         return;
