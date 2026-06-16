@@ -86,7 +86,7 @@ let firstFetch = true;
 let debugCounter = 0;
 let pathName = window.location.pathname.replace(/\/+/, '/') || "/";
 let sourcesFilter = null;
-let sources = ['adsb', ['uat', 'adsr'], 'mlat', 'tisb', 'modeS', 'other', 'adsc', 'ais'];
+let sources = ['adsb', ['uat', 'adsr'], 'mlat', 'tisb', 'modeS', 'other', 'adsc', 'ais', 'flarm'];
 let flagFilter = null;
 let flagFilterValues = ['military', 'pia', 'ladd'];
 let showTrace = false;
@@ -166,6 +166,8 @@ let uat_now = 0;
 let uat_last = 0;
 let FetchPending = [];
 let FetchPendingUAT = null;
+let FetchPendingFLARM = null;
+let flarm_data = null;
 
 let MessageCountHistory = [];
 let MessageRate = 0;
@@ -183,6 +185,50 @@ let badDot;
 let badDotMlat;
 
 let showingReplayBar = false;
+
+function normalizeFlarmAircraft(ac) {
+    var hex = '~F' + ac.icao24;
+    var normalized = {
+        hex: hex,
+        type: 'flarm',
+        source: 'flarm',
+        lat: ac.latitude,
+        lon: ac.longitude,
+        alt_geom: ac.altitude != null ? Math.round(ac.altitude * 3.28084) : null,
+        gs: ac.speed != null ? ac.speed * 1.94384 : null,
+        geom_rate: ac.climb_rate != null ? Math.round(ac.climb_rate * 196.85) : null,
+        track: ac.track,
+        track_rate: ac.turn_rate,
+        seen: 0,
+        seen_pos: 0,
+        category: ac.aircraft_type,
+        flarm: {
+            icao24: ac.icao24,
+            icao24_num: ac.icao24_num,
+            message_type: ac.message_type,
+            radio_identifier_type: ac.radio_identifier_type,
+            urgency: ac.urgency,
+            icaoExt: ac.icaoExt,
+            message_type_ext: ac.message_type_ext,
+            is_stealth: ac.is_stealth,
+            is_no_track: ac.is_no_track,
+            version: ac.version,
+            version_max: ac.version_max,
+            time: ac.time,
+            aircraft_type: ac.aircraft_type,
+            turn_rate: ac.turn_rate,
+            movement_mode: ac.movement_mode,
+            acc_pos_hor: ac.acc_pos_hor,
+            acc_pos_ver: ac.acc_pos_ver,
+            acc_vel: ac.acc_vel,
+            sil: ac.sil,
+            sda: ac.sda,
+            nic: ac.nic,
+        }
+    };
+
+    return normalized;
+}
 
 function processAircraft(ac, init, uat) {
     const isArray = Array.isArray(ac);
@@ -700,6 +746,7 @@ function fetchData(options) {
     } else {
         ac_url.push('data/aircraft' + suffix);
     }
+
 
     pendingFetches += ac_url.length;
     fetchCounter += ac_url.length;
@@ -1815,7 +1862,7 @@ function initLegend(colors) {
     if (aiscatcher_server)
         html += '<div class="legendTitle" style="background-color:' + colors['ais'] + ';">AIS</div>';
     html += '<div class="legendTitle" style="background-color:' + colors['adsc'] + `;">${jaeroLabel}</div>`;
-
+    html += '<div class="legendTitle" style="background-color:' + colors['flarm'] + ';">FLARM</div>';
     document.getElementById('legend').innerHTML = html;
 }
 
@@ -1838,6 +1885,7 @@ function initSourceFilter(colors) {
         html += createFilter(colors['ais'], 'AIS', sources[7]);
     }
 
+    html += createFilter(colors['flarm'], 'FLARM', sources[8]);
 
     document.getElementById('sourceFilter').innerHTML = html;
 
