@@ -31,15 +31,15 @@ let DisplayUnits = "nautical";
 // degrees.
 
 // The google maps zoom level, 0 - 16, lower is further out
-let DefaultZoomLvl   = 9;
+let DefaultZoomLvl = 9;
 
 let autoselectCoords = null;
 
 let showGrid = false;
 
 
-let SiteShow    = true;           // true to show a center marker
-let SiteName    = "My Radar Site"; // tooltip of the marker
+let SiteShow = true;           // true to show a center marker
+let SiteName = "My Radar Site"; // tooltip of the marker
 
 // Update GPS location (keep map centered on GPS location)
 let updateLocation = false;
@@ -121,12 +121,12 @@ let altitudeChartDefaultState = true;
 // All color values are given as Hue (0-359) / Saturation (0-100) / Lightness (0-100)
 let ColorByAlt = {
 	// HSL for planes with unknown altitude:
-	unknown : { h: 0,   s: 0,   l: 75 },
+	unknown: { h: 0, s: 0, l: 75 },
 
 	// HSL for planes that are on the ground:
-	ground  : { h: 220, s: 0, l: 30 },
+	ground: { h: 220, s: 0, l: 30 },
 
-	air : {
+	air: {
 		// These define altitude-to-hue mappings
 		// at particular altitudes; the hue
 		// for intermediate altitudes that lie
@@ -140,57 +140,57 @@ let ColorByAlt = {
 		// hue of the first entry; altitudes above
 		// the last entry use the hue of the last
 		// entry.
-		h: [ { alt: 0,  val: 20 },    // orange
-			{ alt: 2000, val: 32.5 },   // yellow
-			{ alt: 4000, val: 43 },   // yellow
-			{ alt: 6000, val: 54 },   // yellow
-			{ alt: 8000, val: 72 },   // yellow
-			{ alt: 9000, val: 85 },   // green yellow
-			{ alt: 11000, val: 140 },   // light green
-			{ alt: 40000, val: 300 } , // magenta
-			{ alt: 51000, val: 360 } , // red
+		h: [{ alt: 0, val: 20 },    // orange
+		{ alt: 2000, val: 32.5 },   // yellow
+		{ alt: 4000, val: 43 },   // yellow
+		{ alt: 6000, val: 54 },   // yellow
+		{ alt: 8000, val: 72 },   // yellow
+		{ alt: 9000, val: 85 },   // green yellow
+		{ alt: 11000, val: 140 },   // light green
+		{ alt: 40000, val: 300 }, // magenta
+		{ alt: 51000, val: 360 }, // red
 		],
 		s: 88,
 		l: [
-			{ h: 0,   val: 53},
-			{ h: 20,  val: 50},
-			{ h: 32,  val: 54},
-			{ h: 40,  val: 52},
-			{ h: 46,  val: 51},
-			{ h: 50,  val: 46},
-			{ h: 60,  val: 43},
-			{ h: 80,  val: 41},
-			{ h: 100, val: 41},
-			{ h: 120, val: 41},
-			{ h: 140, val: 41},
-			{ h: 160, val: 40},
-			{ h: 180, val: 40},
-			{ h: 190, val: 44},
-			{ h: 198, val: 50},
-			{ h: 200, val: 58},
-			{ h: 220, val: 58},
-			{ h: 240, val: 58},
-			{ h: 255, val: 55},
-			{ h: 266, val: 55},
-			{ h: 270, val: 58},
-			{ h: 280, val: 58},
-			{ h: 290, val: 47},
-			{ h: 300, val: 43},
-			{ h: 310, val: 48},
-			{ h: 320, val: 48},
-			{ h: 340, val: 52},
-			{ h: 360, val: 53},
+			{ h: 0, val: 53 },
+			{ h: 20, val: 50 },
+			{ h: 32, val: 54 },
+			{ h: 40, val: 52 },
+			{ h: 46, val: 51 },
+			{ h: 50, val: 46 },
+			{ h: 60, val: 43 },
+			{ h: 80, val: 41 },
+			{ h: 100, val: 41 },
+			{ h: 120, val: 41 },
+			{ h: 140, val: 41 },
+			{ h: 160, val: 40 },
+			{ h: 180, val: 40 },
+			{ h: 190, val: 44 },
+			{ h: 198, val: 50 },
+			{ h: 200, val: 58 },
+			{ h: 220, val: 58 },
+			{ h: 240, val: 58 },
+			{ h: 255, val: 55 },
+			{ h: 266, val: 55 },
+			{ h: 270, val: 58 },
+			{ h: 280, val: 58 },
+			{ h: 290, val: 47 },
+			{ h: 300, val: 43 },
+			{ h: 310, val: 48 },
+			{ h: 320, val: 48 },
+			{ h: 340, val: 52 },
+			{ h: 360, val: 53 },
 		],
 	},
 
 	// Changes added to the color of the currently selected plane
-	selected : { h: 0, s: 10, l: 5 },
+	selected: { h: 0, s: 10, l: 5 },
 
 	// Changes added to the color of planes that have stale position info
-	stale :    { h: 0, s: -35, l: 9 },
+	stale: { h: 0, s: -35, l: 9 },
 
 	// Changes added to the color of planes that have positions from mlat
-	mlat :     { h: 0, s: 0, l: 0 }
+	mlat: { h: 0, s: 0, l: 0 }
 };
 
 // For a monochrome display try this:
@@ -310,26 +310,26 @@ let squareMania = false;
 // Columns that have a // in front of them are shown.
 let HideCols = [
 	"#icao",
-//	"#country",
-//	"#flight",
-//	"#route",
+	//	"#country",
+	//	"#flight",
+	//	"#route",
 	"#registration",
-//	"#type",
-//	"#squawk",
-//	"#altitude",
-//	"#speed",
+	//	"#type",
+	//	"#squawk",
+	//	"#altitude",
+	//	"#speed",
 	"#vert_rate",
-//	"#sitedist",
+	//	"#sitedist",
 	"#track",
 	"#msgs",
 	"#seen",
-//	"#rssi",
+	//	"#rssi",
 	"#lat",
 	"#lon",
 	"#data_source",
 	"#military",
-    "#wd",
-    "#ws",
+	"#wd",
+	"#ws",
 ]
 
 
@@ -415,35 +415,37 @@ let OutlineMlatColor = null;
 let tableColorsDark;
 let tableColorsLight;
 let tableColors = {
-    unselected: {
-        adsb:      "#d8f4ff",
-        mlat:      "#FDF7DD",
-        uat:       "#C4FFDC",
-        adsr:      "#C4FFDC",
-        adsc:      "#9efa9e",
-        modeS:     "#d8d8ff",
-        tisb:      "#ffd8e6",
-        unknown:   "#dcdcdc",
-        other:   "#dcdcdc",
-        ais:     "#dcdcdc",
-    },
-    selected: {
-        adsb:      "#88DDFF",
-        mlat:      "#F1DD83",
-        uat:       "#66FFA6",
-        adsr:      "#66FFA6",
-        adsc:      "#75f075",
-        modeS:     "#BEBEFF",
-        tisb:      "#FFC1D8",
-        unknown:   "#bcbcbc",
-        other:   "#bcbcbc",
-        ais:   "#bcbcbc",
-    },
-    special: {
-        7500:      "#ff0000",
-        7600:      "#ff0000",
-        7700:      "#ff0000",
-    }
+	unselected: {
+		adsb: "#d8f4ff",
+		mlat: "#FDF7DD",
+		uat: "#C4FFDC",
+		adsr: "#C4FFDC",
+		adsc: "#9efa9e",
+		modeS: "#d8d8ff",
+		tisb: "#ffd8e6",
+		unknown: "#dcdcdc",
+		other: "#dcdcdc",
+		ais: "#dcdcdc",
+		flarm: "#ffd27f",
+	},
+	selected: {
+		adsb: "#88DDFF",
+		mlat: "#F1DD83",
+		uat: "#66FFA6",
+		adsr: "#66FFA6",
+		adsc: "#75f075",
+		modeS: "#BEBEFF",
+		tisb: "#FFC1D8",
+		unknown: "#bcbcbc",
+		other: "#bcbcbc",
+		ais: "#bcbcbc",
+		flarm: "#f69d00",
+	},
+	special: {
+		7500: "#ff0000",
+		7600: "#ff0000",
+		7700: "#ff0000",
+	}
 };
 
 let disableGeoLocation = false;
@@ -461,8 +463,8 @@ let inhibitIframe = false;
 // !!! Please set the latitude / longitude in the decoder rather than
 // setting it here !!!
 // (graphs1090 will get the location from the decoder)
-let SiteLat     = null;            // position of the marker
-let SiteLon     = null;
+let SiteLat = null;            // position of the marker
+let SiteLon = null;
 
 // Default center of the map if no Site location is set
 let DefaultCenterLat = 40.56;
