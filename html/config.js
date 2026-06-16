@@ -374,6 +374,9 @@ routeApiUrl = "https://flightroutes.opensky-network.org/api/routeset";
 // aiscatcher_refresh = 15; // refresh interval in seconds
 // aisTimeout = 1200;
 
+// flarm_server = "data/flarm_aircraft.json"; // URL or path to FLARM Avro JSON
+// flarm_refresh = 5; // refresh interval in seconds
+
 // droneJson = "";
 // droneRefresh = 1;
 

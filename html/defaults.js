@@ -403,6 +403,10 @@ let aiscatcher_refresh = 15;
 let aiscatcher_test = true; // unused
 let aisTimeout = 1200;
 
+// TODO: Explore how we will get FLARM data to tar1090
+let flarm_server = "data/flarm_aircraft.json";
+let flarm_refresh = 5;
+
 let droneJson = "";
 let droneRefresh = 1;
 
