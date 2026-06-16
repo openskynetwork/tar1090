@@ -726,6 +726,19 @@
           <button id="export_kml_baro" onclick='exportKML("baro")'>uncorrected pressure alt.</button>
 
         </div>
+        <!-- To show aircraft details on left sidebar upon clicking aircraft -->
+        <div id="selected_flarm_block" class="hidden">
+          <div class="sectionTitle">
+            <div class="section-title-content">
+              FLARM
+            </div>
+          </div>
+          <div class="infoBlockSection">
+            <table class="infoSectionTable">
+              <tbody id="selected_flarm_fields"></tbody>
+            </table>
+          </div>
+        </div>
       </div> <!-- selected_infoblock -->
 
       <div id="loader">

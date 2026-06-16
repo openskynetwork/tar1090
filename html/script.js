@@ -2174,6 +2174,11 @@ function setIntervalTimers() {
         updateDrones();
     }
 
+    if (flarm_server) {
+        timers.flarm = setInterval(processFlarmUpdate, flarm_refresh * 1000);
+        processFlarmUpdate();
+    }
+
     timersActive = true;
 
     fetchData();
@@ -2194,6 +2199,29 @@ function updateDrones() {
             handleDrones(data);
         });
     }
+}
+
+function processFlarmUpdate() {
+    if (!flarm_server) return;
+
+    var req = jQuery.ajax({
+        url: flarm_server,
+        dataType: 'json',
+    });
+
+    req.done(function(data) {
+        var aircraft = data.aircraft || data;
+        if (!Array.isArray(aircraft)) return;
+
+        for (var i = 0; i < aircraft.length; i++) {
+            var ac = normalizeFlarmAircraft(aircraft[i]);
+            processAircraft(ac, false, false);
+        }
+    });
+
+    req.fail(function() {
+        // silent fail
+    });
 }
 
 function handleDrones(data) {
@@ -3514,7 +3542,7 @@ let selIcao = null;
 let selReg = null;
 
 let somethingSelected = false;
-// Refresh the detail window about the plane
+// Refresh the sidebar detail window about the plane
 function refreshSelected() {
     const selected = SelectedPlane;
 
