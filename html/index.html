@@ -43,8 +43,8 @@
             <div class="infoData"><span id="highlighted_icaotype">n/a</span></div>
           </div>
           <div>
-              <div id="routeRowHighlight" class="infoHeading"><span title="Reported flight origin and destination according to adsbdb.com">Route</span>:</div>
-              <div class="infoData"><span id="highlighted_route"></span></div>
+            <div id="routeRowHighlight" class="infoHeading"><span title="Reported flight origin and destination according to adsbdb.com">Route</span>:</div>
+            <div class="infoData"><span id="highlighted_route"></span></div>
           </div>
           <div class="rSpacer">
           </div>
@@ -354,7 +354,7 @@
 
             </table>
           </div>
-              <!-- SPATIAL -->
+          <!-- SPATIAL -->
 
           <div class="sectionTitle">
             <div class="section-title-content">
@@ -708,14 +708,27 @@
             <div class="bottom-info-text"> Learn more about Mode S data type by hovering over each data label.</div>
           </div>
           <div>
-              <div class="infoHeading">
-                  <span >Pos. epoch</span>:
-              </div>
-              <div class="infoData">
-                  <span id="selected_pos_epoch">n/a</span>
-              </div>
+            <div class="infoHeading">
+              <span >Pos. epoch</span>:
+            </div>
+            <div class="infoData">
+              <span id="selected_pos_epoch">n/a</span>
+            </div>
           </div>
 
+          <!-- To show aircraft details on left sidebar upon clicking aircraft -->
+          <div id="selected_flarm_block" class="hidden">
+            <div class="sectionTitle">
+              <div class="section-title-content">
+                FLARM
+              </div>
+            </div>
+            <div class="infoBlockSection">
+              <table class="infoSectionTable">
+                <tbody id="selected_flarm_fields"></tbody>
+              </table>
+            </div>
+          </div>
           <div class="sectionTitle">
             <div class="section-title-content">
               Export KML
@@ -726,23 +739,10 @@
           <button id="export_kml_baro" onclick='exportKML("baro")'>uncorrected pressure alt.</button>
 
         </div>
-        <!-- To show aircraft details on left sidebar upon clicking aircraft -->
-        <div id="selected_flarm_block" class="hidden">
-          <div class="sectionTitle">
-            <div class="section-title-content">
-              FLARM
-            </div>
-          </div>
-          <div class="infoBlockSection">
-            <table class="infoSectionTable">
-              <tbody id="selected_flarm_fields"></tbody>
-            </table>
-          </div>
-        </div>
       </div> <!-- selected_infoblock -->
 
       <div id="loader">
-          <progress id="loader_progress"></progress>
+        <progress id="loader_progress"></progress>
       </div>
 
       <div id="map_container" style="background-color:#D2D2D2;">
@@ -802,35 +802,35 @@
           </div>
         </div>
         <div id="header_side" class="infoHeading">
-          <div class="buttonContainer">
-            <div id="toggle_sidebar_control">
-              <button id="toggle_sidebar_button" class="show_sidebar sidebar_button " title="Toggle Sidebar"></button>
-            </div>
-            <div id="expand_sidebar_control">
-              <button id="expand_sidebar_button" class="sidebar_button" title="Expand Sidebar" style="display: none;"></button>
-            </div>
-            <div id="fullscreenButton" class="svgButton fullscreenButton"></div>
-            <div id="settingsCog" class="svgButton settingsCog"></div>
-            <div id="L" title="Toggle (L)abels" class="button inActiveButton" onclick="toggleLabels();"><span class="buttonText">L</span></div>
-            <div id="O" title="Toggle Label Extensi(O)ns" class="button inActiveButton" onclick="toggleExtendedLabels();"><span class="buttonText">O</span></div>
-            <div id="K" title="Toggle Trac(K) Labels" class="button inActiveButton" onclick="toggleTrackLabels();"><span class="buttonText">K</span></div>
-            <div class="buttonSpacer">
-            </div>
-            <div style="display: none" id="B" title="Toggle Map (B)rightness" class="button inActiveButton" onclick="toggles['MapDim'].toggle();"><span class="buttonText">B</span></div>
-            <div class="buttonSpacer">
-            </div>
-            <div style="display: none" id="V" title="Table: only show aircraft in current (V)iew" class="button inActiveButton" onclick="toggleTableInView();"><span class="buttonText">V</span></div>
-            <div id="M" title="Toggle (M)ultiSelect" class="button inActiveButton" onclick="toggleMultiSelect();"><span class="buttonText">M</span></div>
-            <div class="buttonSpacer">
-            </div>
-            <div id="P" title="(P)ersistence mode" class="button inActiveButton" onclick="togglePersistence();"><span class="buttonText">P</span></div>
-            <div id="I" title="(I)solate: only show selected aircraft" class="button inActiveButton" onclick="toggleIsolation();"><span class="buttonText">I</span></div>
-            <div class="buttonSpacer">
-            </div>
-            <div id="R" title="Follow a (R)andom plane!" class="button inActiveButton" onclick="followRandomPlane();"><span class="buttonText">R</span></div>
-            <div id="F" title="(F)ollow" class="button inActiveButton" onclick="toggleFollow();"><span class="buttonText">F</span></div>
+        <div class="buttonContainer">
+          <div id="toggle_sidebar_control">
+            <button id="toggle_sidebar_button" class="show_sidebar sidebar_button " title="Toggle Sidebar"></button>
           </div>
+          <div id="expand_sidebar_control">
+            <button id="expand_sidebar_button" class="sidebar_button" title="Expand Sidebar" style="display: none;"></button>
+          </div>
+          <div id="fullscreenButton" class="svgButton fullscreenButton"></div>
+          <div id="settingsCog" class="svgButton settingsCog"></div>
+          <div id="L" title="Toggle (L)abels" class="button inActiveButton" onclick="toggleLabels();"><span class="buttonText">L</span></div>
+          <div id="O" title="Toggle Label Extensi(O)ns" class="button inActiveButton" onclick="toggleExtendedLabels();"><span class="buttonText">O</span></div>
+          <div id="K" title="Toggle Trac(K) Labels" class="button inActiveButton" onclick="toggleTrackLabels();"><span class="buttonText">K</span></div>
+          <div class="buttonSpacer">
+          </div>
+          <div style="display: none" id="B" title="Toggle Map (B)rightness" class="button inActiveButton" onclick="toggles['MapDim'].toggle();"><span class="buttonText">B</span></div>
+          <div class="buttonSpacer">
+          </div>
+          <div style="display: none" id="V" title="Table: only show aircraft in current (V)iew" class="button inActiveButton" onclick="toggleTableInView();"><span class="buttonText">V</span></div>
+          <div id="M" title="Toggle (M)ultiSelect" class="button inActiveButton" onclick="toggleMultiSelect();"><span class="buttonText">M</span></div>
+          <div class="buttonSpacer">
+          </div>
+          <div id="P" title="(P)ersistence mode" class="button inActiveButton" onclick="togglePersistence();"><span class="buttonText">P</span></div>
+          <div id="I" title="(I)solate: only show selected aircraft" class="button inActiveButton" onclick="toggleIsolation();"><span class="buttonText">I</span></div>
+          <div class="buttonSpacer">
+          </div>
+          <div id="R" title="Follow a (R)andom plane!" class="button inActiveButton" onclick="followRandomPlane();"><span class="buttonText">R</span></div>
+          <div id="F" title="(F)ollow" class="button inActiveButton" onclick="toggleFollow();"><span class="buttonText">F</span></div>
         </div>
+      </div>
         <div id="altitude_chart" class="ol-unselectable ol-control altitudeFeet">
           <button id="altitude_chart_button"></button>
         </div>
@@ -931,7 +931,7 @@
                 <td></td>
               </tr>
               <tr><td>
-              <table style="width: 100%" id="mp3player" class="hidden"></table>
+                <table style="width: 100%" id="mp3player" class="hidden"></table>
               </td></tr>
               <tr>
                 <td>
@@ -951,7 +951,7 @@
                           <span> <input id="altimeter_input" type="number" step="0.01" value="29.92" class="searchInput"></span>
                           <span> <button class="formButton" type="submit">Set</button></span>
                           <span> <button class="formButton" type="button" id="altimeter_set_standard">Standard</button>
-                          <span> <button class="formButton" type="button" disabled id="altimeter_set_selected">From Plane</button>
+                            <span> <button class="formButton" type="button" disabled id="altimeter_set_selected">From Plane</button>
                         </form>
                       </td>
                     </tr>
@@ -1034,21 +1034,21 @@
                     </tr>
 
                     <tr>
-                      <td>
-                        <form id="flag_filter_form">
-                          <div class="infoBlockTitleText">Filter by DB flags:</div>
-                          <table>
-                            <tr><td>
-                              <ol id="flagFilter" class="buttonFilter"></ol>
-                            </td></tr>
-                            <tr><td>
-                              <button class="formButton" type="submit">Filter</button>
-                              <button class="formButton" id="flag_filter_reset_button">Reset</button>
-                            </td></tr>
-                          </table>
-                        </form>
-                      </td>
-                    </tr>
+                    <td>
+                      <form id="flag_filter_form">
+                        <div class="infoBlockTitleText">Filter by DB flags:</div>
+                        <table>
+                          <tr><td>
+                            <ol id="flagFilter" class="buttonFilter"></ol>
+                          </td></tr>
+                          <tr><td>
+                            <button class="formButton" type="submit">Filter</button>
+                            <button class="formButton" id="flag_filter_reset_button">Reset</button>
+                          </td></tr>
+                        </table>
+                      </form>
+                    </td>
+                  </tr>
                   </tbody>
                 </table>
                 <table cellpadding="0" cellspacing="0" id="filterTable3">

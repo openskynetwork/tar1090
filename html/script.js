@@ -1893,11 +1893,16 @@ function initSourceFilter(colors) {
         stop: function() {
             sourcesFilter = [];
             jQuery(".ui-selected", this).each(function() {
-                const index = jQuery("#sourceFilter li").index(this);
-                if (Array.isArray(sources[index]))
-                    sources[index].forEach(member => { sourcesFilter.push(member); });
-                else
-                    sourcesFilter.push(sources[index]);
+                var key = jQuery(this).attr('id').replace('source-filter-', '');
+                for (var i = 0; i < sources.length; i++) {
+                    if (Array.isArray(sources[i]) && sources[i][0] === key) {
+                        sources[i].forEach(function(member) { sourcesFilter.push(member); });
+                        break;
+                    } else if (sources[i] === key) {
+                        sourcesFilter.push(sources[i]);
+                        break;
+                    }
+                }
             });
         }
     });
@@ -2210,6 +2215,10 @@ function processFlarmUpdate() {
     });
 
     req.done(function(data) {
+        if (now === 0) {
+            now = new Date().getTime() / 1000;
+            last = now - 1;
+        }
         var aircraft = data.aircraft || data;
         if (!Array.isArray(aircraft)) return;
 
