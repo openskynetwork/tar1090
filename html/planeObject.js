@@ -52,6 +52,8 @@ function PlaneObject(icao) {
 }
 
 PlaneObject.prototype.setNull = function() {
+    this.source = null;
+    this.flarm = null;
     this.flight = null;
     this.flightTs = 0;
     this.name = 'no callsign';
@@ -197,6 +199,9 @@ function planeCloneState(target, source) {
     target.msgs978 = source.msgs978;
     target.messageRate = source.messageRate;
     target.messageRateOld = source.messageRateOld;
+
+    target.source = source.source;
+    target.flarm = source.flarm;
 };
 
 
@@ -1662,6 +1667,14 @@ PlaneObject.prototype.updateData = function(now, last, data, init) {
 
     this.last = now;
     this.updatePositionData(now, last, data, init);
+    const flarm = !isArray && (data.source == "flarm" || data.type == "flarm" || data.flarm != null);
+    if (flarm) {
+        this.dataSource = "flarm";
+        this.source = "flarm";
+        this.flarm = data.flarm || null;
+    } else if (mlat && noMLAT) {
+        this.dataSource = "modeS";
+    }
     return;
 };
 

@@ -1,0 +1,35 @@
+{
+  "aircraft": [
+    {
+      "timestamp": 1717000000.0,
+      "icao24": "AldiAir",
+      "icao24_num": 11259393,
+      "message_type": 0,
+      "radio_identifier_type": "FLARM",
+      "urgency": "Normal",
+      "icaoExt": "0000",
+      "message_type_ext": 0,
+      "is_stealth": false,
+      "is_no_track": false,
+      "version": 3,
+      "version_max": 3,
+      "time": 0,
+      "aircraft_type": "Glider",
+      "latitude": 47.5,
+      "longitude": 8.5,
+      "altitude": 1200.0,
+      "turn_rate": 0.0,
+      "speed": 30.0,
+      "climb_rate": 1.5,
+      "track": 180.0,
+      "movement_mode": "Flying",
+      "acc_pos_hor": 15.0,
+      "acc_pos_ver": 30.0,
+      "acc_vel": 2.0,
+      "sil": "Le1eMinus3",
+      "sda": "MajorDalC",
+      "nic": "RcLt1Nm",
+      "payload": "AAAA..."
+    }
+  ]
+}

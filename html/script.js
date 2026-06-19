@@ -3584,7 +3584,7 @@ function refreshSelected() {
         jQuery('#selected_flightaware_link').html(getFlightAwareModeSLink(selected.icao, selected.flight, "Visit Flight Page"));
     }
 
-    if (selected.isNonIcao() && selected.source != 'mlat') {
+    if (selected.isNonIcao() && selected.source != 'mlat' && selected.dataSource != 'flarm') {
         jQuery('#anon_mlat_info').addClass('hidden');
         jQuery('#reg_info').addClass('hidden');
         jQuery('#tisb_info').removeClass('hidden');
@@ -3923,8 +3923,51 @@ function refreshSelected() {
     } else {
         jQuery('#selected_version').updateText('v' + selected.version);
     }
-
+    refreshSelectedFlarm();
     adjustInfoBlock();
+}
+
+// for FLARM display
+function refreshSelectedFlarm() {
+    var selected = SelectedPlane;
+    if (!selected || !selected.flarm) {
+        jQuery('#selected_flarm_block').addClass('hidden');
+        return;
+    }
+
+    jQuery('#selected_flarm_block').removeClass('hidden');
+
+    var f = selected.flarm;
+
+    var fields = [
+        { label: 'ICAO24', key: 'icao24' },
+        { label: 'Radio ID Type', key: 'radio_identifier_type' },
+        { label: 'Aircraft Type', key: 'aircraft_type' },
+        { label: 'Urgency', key: 'urgency' },
+        { label: 'Stealth', key: 'is_stealth', fmt: function(v) { return v ? 'Yes' : 'No'; } },
+        { label: 'No Track', key: 'is_no_track', fmt: function(v) { return v ? 'Yes' : 'No'; } },
+        { label: 'Movement Mode', key: 'movement_mode' },
+        { label: 'Turn Rate', key: 'turn_rate', fmt: function(v) { return v != null ? v.toFixed(1) + ' °/s' : 'n/a'; } },
+        { label: 'Version', key: 'version', fmt: function(v) { return 'v' + v; } },
+        { label: 'H-ACC', key: 'acc_pos_hor', fmt: function(v) { return v != null ? v.toFixed(0) + ' m' : 'n/a'; } },
+        { label: 'V-ACC', key: 'acc_pos_ver', fmt: function(v) { return v != null ? v.toFixed(0) + ' m' : 'n/a'; } },
+        { label: 'Vel. ACC', key: 'acc_vel', fmt: function(v) { return v != null ? v.toFixed(1) + ' m/s' : 'n/a'; } },
+        { label: 'SIL', key: 'sil' },
+        { label: 'SDA', key: 'sda' },
+        { label: 'NIC', key: 'nic' },
+    ];
+
+    var html = '';
+    for (var i = 0; i < fields.length; i++) {
+        var field = fields[i];
+        var val = f[field.key];
+        var display = (val != null && val !== '') ? (field.fmt ? field.fmt(val) : val) : 'n/a';
+        html += '<tr>'
+            + '<td><span class="infoHeading">' + field.label + ':</span></td>'
+            + '<td><span class="infoData">' + display + '</span></td>'
+            + '</tr>';
+    }
+    jQuery('#selected_flarm_fields').html(html);
 }
 
 let somethingHighlighted = false;
