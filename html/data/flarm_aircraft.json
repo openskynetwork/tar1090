@@ -2,7 +2,7 @@
   "aircraft": [
     {
       "timestamp": 1717000000.0,
-      "icao24": "Testing",
+      "icao24": "abcd01",
       "icao24_num": 11259393,
       "message_type": 0,
       "radio_identifier_type": "FLARM",
