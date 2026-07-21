@@ -55,7 +55,8 @@ function refreshTrackedCallsigns() {
 function loadAirlineTable() {
     try {
         const cached = JSON.parse(localStorage.getItem(AIRLINE_CACHE_KEY));
-        if (cached && Date.now() - cached.ts < AIRLINE_CACHE_MAX_AGE_MS) {
+        if (cached && typeof cached.ts === 'number' && cached.data && typeof cached.data === 'object'
+            && Date.now() - cached.ts < AIRLINE_CACHE_MAX_AGE_MS) {
             iata_to_icao = cached.data;
             return;
         }
