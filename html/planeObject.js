@@ -2896,7 +2896,7 @@ function iataToIcao(iataCode, numPart) {
         return 'DLH';
     }
 
-    if (iata_to_icao && iata_to_icao[iataCode]) {
+    if (typeof iata_to_icao !== 'undefined' && iata_to_icao && iata_to_icao[iataCode]) {
         return iata_to_icao[iataCode];
     }
 

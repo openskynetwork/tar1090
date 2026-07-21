@@ -12,11 +12,13 @@ let iata_to_icao = {};
 
 function parseAirlineCsv(text) {
     // Columns: pk^env_id^validity_from^validity_to^3char_code^2char_code^...^type^...
-    // Only currently valid (validity_to empty), non-cargo-only (type != "C")
-    // entries are kept, to avoid ambiguity between passenger and cargo
-    // airlines sharing an IATA code (see the Lufthansa special case in
-    // iataToIcao() in planeObject.js).
+    // Only currently valid (validity_to empty) entries are kept. Passenger
+    // entries are preferred over cargo ones when both exist for the same
+    // IATA code (see the Lufthansa/Lufthansa Cargo special case in
+    // iataToIcao() in planeObject.js), but a cargo-only entry is still
+    // used when it's the only mapping available for that IATA code.
     const map = {};
+    const cargoOnly = {};
     const lines = text.split('\n');
     for (let i = 1; i < lines.length; i++) {
         const f = lines[i].split('^');
@@ -27,10 +29,19 @@ function parseAirlineCsv(text) {
         const icao3 = (f[4] || '').trim();
         const iata2 = (f[5] || '').trim();
         const type = (f[11] || '').trim();
-        if (!/^[A-Z0-9]{2}$/.test(iata2) || !/^[A-Z]{3}$/.test(icao3) || validityTo || type === 'C') {
+        if (!/^[A-Z0-9]{2}$/.test(iata2) || !/^[A-Z]{3}$/.test(icao3) || validityTo) {
             continue;
         }
-        map[iata2] = icao3;
+        if (type === 'C') {
+            cargoOnly[iata2] = icao3;
+        } else {
+            map[iata2] = icao3;
+        }
+    }
+    for (const iata2 in cargoOnly) {
+        if (!(iata2 in map)) {
+            map[iata2] = cargoOnly[iata2];
+        }
     }
     return map;
 }
