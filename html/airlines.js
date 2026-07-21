@@ -23,11 +23,11 @@ function parseAirlineCsv(text) {
         if (f.length < 12) {
             continue;
         }
-        const validityTo = f[3];
-        const icao3 = f[4];
-        const iata2 = f[5];
-        const type = f[11];
-        if (!iata2 || !icao3 || validityTo || type === 'C') {
+        const validityTo = (f[3] || '').trim();
+        const icao3 = (f[4] || '').trim();
+        const iata2 = (f[5] || '').trim();
+        const type = (f[11] || '').trim();
+        if (!/^[A-Z0-9]{2}$/.test(iata2) || !/^[A-Z]{3}$/.test(icao3) || validityTo || type === 'C') {
             continue;
         }
         map[iata2] = icao3;
@@ -45,7 +45,9 @@ function refreshTrackedCallsigns() {
     for (const hex in g.planes) {
         const plane = g.planes[hex];
         if (plane.flight) {
+            const oldTs = plane.flightTs;
             plane.setFlight(plane.flight);
+            plane.flightTs = oldTs;
         }
     }
 }
@@ -62,7 +64,12 @@ function loadAirlineTable() {
     }
 
     fetch(AIRLINE_CSV_URL)
-        .then(res => res.text())
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status} ${res.statusText}`);
+            }
+            return res.text();
+        })
         .then(text => {
             iata_to_icao = parseAirlineCsv(text);
             refreshTrackedCallsigns();
