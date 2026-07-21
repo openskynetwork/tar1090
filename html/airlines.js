@@ -58,6 +58,7 @@ function loadAirlineTable() {
         if (cached && typeof cached.ts === 'number' && cached.data && typeof cached.data === 'object'
             && Date.now() - cached.ts < AIRLINE_CACHE_MAX_AGE_MS) {
             iata_to_icao = cached.data;
+            refreshTrackedCallsigns();
             return;
         }
     } catch (e) {
