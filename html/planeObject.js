@@ -2896,7 +2896,7 @@ function iataToIcao(iataCode, numPart) {
         return 'DLH';
     }
 
-    if (typeof iata_to_icao !== 'undefined' && iata_to_icao[iataCode]) {
+    if (iata_to_icao && iata_to_icao[iataCode]) {
         return iata_to_icao[iataCode];
     }
 
@@ -2906,7 +2906,7 @@ function iataToIcao(iataCode, numPart) {
 function normalized_callsign(flight) {
     // Distinguish ICAO (3 letters) from IATA (2 alphanumeric, or digit+letter)
     // prefixes so IATA callsigns can be converted to ICAO below.
-    const prefixRe = /^(?:([A-Z]{3})|([A-Z][A-Z0-9])|([0-9][A-Z]))([0-9]*)([A-Z]*)$/;
+    const prefixRe = /^(?:([A-Z]{3})|([A-Z][A-Z0-9])|([0-9][A-Z]))([0-9]+)([A-Z]*)$/;
     let match = flight.match(prefixRe);
 
     let alpha, num, alpha2, prefixType;
