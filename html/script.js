@@ -212,7 +212,7 @@ function processAircraft(ac, init, uat) {
     // If not make it.
     let plane = g.planes[hex]
 
-    if (!noVanish && plane && g.historyKeep && g.historyKeep[hex] && type != 'adsc') {
+    if (!showTrace && !noVanish && plane && g.historyKeep && g.historyKeep[hex] && type != 'adsc') {
         if (now - plane.last_info_server > reapTimeout) {
 
             //console.log(`deleting ${hex} at ${now}`);
