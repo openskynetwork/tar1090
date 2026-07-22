@@ -479,7 +479,7 @@ function fetchDone(data) {
 }
 
 let operatorsCache = null;
-let operatorsCacheLoaded = false;
+let operatorsCachePromise = null;
 
 function db_load_type_cache() {
     return jQuery.getJSON(databaseFolder + "/icao_aircraft_types2.js").done(function(typeLookupData) {
@@ -491,15 +491,17 @@ function db_load_type_cache() {
 }
 
 function db_load_operators_cache() {
-    if (operatorsCacheLoaded) {
-        return jQuery.Deferred().resolve(operatorsCache).promise();
+    if (operatorsCachePromise) {
+        return operatorsCachePromise;
     }
-    operatorsCacheLoaded = true;
-    return jQuery.getJSON(databaseFolder + "/operators.js").done(function(operatorData) {
+    operatorsCachePromise = jQuery.getJSON(databaseFolder + "/operators.js").done(function(operatorData) {
         operatorsCache = operatorData || {};
-    }).fail(function() {
+    }).fail(function(jqxhr, textStatus, error) {
+        console.warn('Failed to load ' + databaseFolder + '/operators.js (airline lookup unavailable):', textStatus, error);
         operatorsCache = {};
+        operatorsCachePromise = null;
     });
+    return operatorsCachePromise;
 }
 
 function lookupAirlineForCallsign(callsign, registration) {
@@ -536,20 +538,22 @@ function lookupAirlineForCallsign(callsign, registration) {
 function updateSelectedAirline(selected) {
     if (!airlineLookup) {
         jQuery('#selected_airline_row').addClass('hidden');
-        jQuery('#selected_airline').updateText('n/a');
-        jQuery('#selected_airline').attr('title', 'Airline lookup disabled');
         return;
     }
-    jQuery('#selected_airline_row').removeClass('hidden');
+
+    if (operatorsCache === null) {
+        jQuery('#selected_airline_row').addClass('hidden');
+        return;
+    }
 
     let operatorData = selected.getAirline ? selected.getAirline() : lookupAirlineForCallsign(selected.name, selected.registration);
     if (operatorData) {
         let title = operatorData.c ? operatorData.c + (operatorData.r ? ' / ' + '"' + operatorData.r + '"' : '') : (operatorData.r || '');
+        jQuery('#selected_airline_row').removeClass('hidden');
         jQuery('#selected_airline').updateText(operatorData.n || 'n/a');
         jQuery('#selected_airline').attr('title', title || '');
     } else {
-        jQuery('#selected_airline').updateText('n/a');
-        jQuery('#selected_airline').attr('title', 'No airline match');
+        jQuery('#selected_airline_row').addClass('hidden');
     }
 }
 
@@ -587,7 +591,10 @@ function afterFirstFetch() {
 
         geoMag = geoMagFactory(cof2Obj());
 
-        jQuery.when(db_load_type_cache(), db_load_operators_cache()).always(function() {
+        db_load_type_cache().always(function() {
+            refresh();
+        });
+        db_load_operators_cache().always(function() {
             refresh();
         });
 
@@ -3525,7 +3532,6 @@ function refreshPhoto(selected) {
 let selCall = null;
 let selIcao = null;
 let selReg = null;
-let selAirline = null;
 
 let somethingSelected = false;
 // Refresh the detail window about the plane
@@ -3989,15 +3995,18 @@ function refreshHighlighted() {
     }
 
     let highlightedOperator = null;
-    if (highlighted.getAirline) {
-        highlightedOperator = highlighted.getAirline();
-    } else {
-        highlightedOperator = lookupAirlineForCallsign(highlighted.name, highlighted.registration);
+    if (airlineLookup && operatorsCache !== null) {
+        if (highlighted.getAirline) {
+            highlightedOperator = highlighted.getAirline();
+        } else {
+            highlightedOperator = lookupAirlineForCallsign(highlighted.name, highlighted.registration);
+        }
     }
     if (highlightedOperator) {
+        jQuery('#highlighted_airline_row').show();
         jQuery('#highlighted_airline').text(highlightedOperator.n || 'n/a');
     } else {
-        jQuery('#highlighted_airline').text('n/a');
+        jQuery('#highlighted_airline_row').hide();
     }
 
     jQuery('#highlighted_speed').text(format_speed_long(highlighted.gs, DisplayUnits));
@@ -4136,11 +4145,13 @@ function refreshFeatures() {
             if (!operatorData) {
                 return '';
             }
-            let title = operatorData.c ? operatorData.c + (operatorData.r ? ' / ' + '&quot;' + operatorData.r + '&quot;': '') : (operatorData.r || '');
-            return '<span title="' + title + '">' + (operatorData.n || '') + '</span>';
+            const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch]));
+            let title = operatorData.c ? operatorData.c + (operatorData.r ? ' / ' + '"' + operatorData.r + '"' : '') : (operatorData.r || '');
+            return '<span title="' + esc(title) + '">' + esc(operatorData.n || '') + '</span>';
         },
-        html: true
+        html: true,
     };
+
     if (routeApiUrl) {
         cols.route = {
             sort: function () { sortBy('route', compareAlpha, function(x) { return x.routeColumn }); },
